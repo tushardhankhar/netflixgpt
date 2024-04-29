@@ -1,11 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import Body from './components/Body';
 
 function App() {
   return (
-    <div className="App">
-      <h1 className='text-red-500'>Tushar</h1>
-    </div>
+    <Body />
   );
 }
 
