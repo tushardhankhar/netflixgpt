@@ -1,31 +1,91 @@
 import React, { useState } from "react";
 import Header from "./Header";
+import { validateCredentials } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+  const [isSignInForm, setIsSignInForm] = useState(true);
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState({});
 
   const { email, password } = credentials;
 
   const handleInputChange = (field) => (e) =>
     setCredentials((prev) => ({ ...prev, [field]: e.target.value }));
 
-  const isDisabled = !email || !password;
+  const toggleForm = () => {
+    setIsSignInForm(!isSignInForm);
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const error = validateCredentials(credentials);
+    if (Object.keys(errors).length !== 0) {
+      setErrors(error);
+      return;
+    }
+    if (!isSignInForm) {
+      try {
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          credentials.email,
+          credentials.password
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const user = await signInWithEmailAndPassword(
+          auth,
+          credentials.email,
+          credentials.password
+        );
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
 
   return (
     <div className='h-[100vh] bg-cover bg-no-repeat bg-center bg-[url("https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_large.jpg")]'>
       <Header />
       <form className="w-1/4 bg-opacity-70 flex flex-col items-center gap-8 bg-black p-16 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <h2 className="font-bold text-3xl w-full">Sign In</h2>
-        <input
-          placeholder="Email"
-          type="email"
-          className="bg-black opacity-80 p-4 rounded-md w-full"
-          value={email}
-          onChange={handleInputChange("email")}
-        />
+        <h2 className="font-bold text-3xl w-full">
+          {isSignInForm ? "Sign In" : "Register"}
+        </h2>
+        {!isSignInForm && (
+          <input
+            placeholder="Name"
+            type="text"
+            className="bg-black opacity-80 p-4 rounded-md w-full"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        )}
+        <div className="w-full">
+          <input
+            placeholder="Email"
+            type="email"
+            className="bg-black opacity-80 p-4 rounded-md w-full"
+            value={email}
+            onChange={handleInputChange("email")}
+          />
+          {errors.email && (
+            <span className="text-red-500 text-sm">{errors.email}</span>
+          )}{" "}
+        </div>
+        {/* Conditionally render */}
         <input
           placeholder="Password"
           type="password"
@@ -33,17 +93,20 @@ export default function Login() {
           value={password}
           onChange={handleInputChange("password")}
         />
+        {errors.password && (
+          <span className="text-red-500 text-sm">{errors.password}</span>
+        )}
         <button
-          className={`w-full p-4 rounded-md ${
-            isDisabled ? "bg-gray-500 cursor-not-allowed" : "bg-red-700"
-          }`}
-          disabled={isDisabled}
+          className={`w-full p-4 rounded-md ${"bg-red-700"}`}
+          onClick={handleSubmit}
         >
-          Sign In
+          {isSignInForm ? "Sign In" : "Register"}
         </button>
         <h2 className="w-full text-lg">
-          New to Netflix?{" "}
-          <span className="font-semibold cursor-pointer">Sign up now.</span>
+          {isSignInForm ? " New to Netflix? " : "Already a user? "}
+          <span className="font-semibold cursor-pointer" onClick={toggleForm}>
+            {isSignInForm ? "Sign up now." : "Sign In now."}
+          </span>
         </h2>
       </form>
     </div>
