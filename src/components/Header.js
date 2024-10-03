@@ -16,11 +16,12 @@ export default function Header() {
     // this will be called everytime there is state change in firebase
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { uid, email } = user;
+        const { uid, email, displayName } = user;
         dispatch(
           addUser({
             uid: uid,
             email: email,
+            displayNmae: displayName,
           })
         );
         navigate("/browser");
@@ -33,7 +34,7 @@ export default function Header() {
     return () => {
       unsubscribe();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function handleSignOut(params) {
     signOut(auth)
