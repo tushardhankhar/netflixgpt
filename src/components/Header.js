@@ -1,23 +1,43 @@
-import { signOut } from "firebase/auth";
-import React, { useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 
 export default function Header() {
   const [dropDown, setDropDown] = useState(false);
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // this will be called everytime there is state change in firebase
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+          })
+        );
+        navigate("/browser");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   function handleSignOut(params) {
     signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+      .then(() => {})
+      .catch((error) => {});
   }
   return (
     <div className="bg-gradient-to-b from-black w-[100vw] p-4 flex justify-between items-center">

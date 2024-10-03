@@ -7,12 +7,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 export default function Login() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -40,7 +38,7 @@ export default function Login() {
     }
     if (!isSignInForm) {
       try {
-        const user = await createUserWithEmailAndPassword(
+        await createUserWithEmailAndPassword(
           auth,
           credentials.email,
           credentials.password
@@ -56,19 +54,16 @@ export default function Login() {
             displayName: displayName,
           })
         );
-        navigate("/browser");
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        const user = await signInWithEmailAndPassword(
+        await signInWithEmailAndPassword(
           auth,
           credentials.email,
           credentials.password
         );
-
-        navigate("/browser");
       } catch (error) {
         console.log(error.message);
       }
