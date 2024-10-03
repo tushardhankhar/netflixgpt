@@ -4,10 +4,16 @@ import { validateCredentials } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -28,7 +34,7 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     const error = validateCredentials(credentials);
-    if (Object.keys(errors).length !== 0) {
+    if (Object.keys(error).length !== 0) {
       setErrors(error);
       return;
     }
@@ -39,6 +45,18 @@ export default function Login() {
           credentials.email,
           credentials.password
         );
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+        const { uid, email, displayName } = auth.currentUser;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+          })
+        );
+        navigate("/browser");
       } catch (error) {
         console.log(error);
       }
@@ -49,6 +67,8 @@ export default function Login() {
           credentials.email,
           credentials.password
         );
+
+        navigate("/browser");
       } catch (error) {
         console.log(error.message);
       }
