@@ -27,6 +27,7 @@ export default function Login() {
 
   const toggleForm = () => {
     setIsSignInForm(!isSignInForm);
+    setErrors({})
   };
 
   async function handleSubmit(e) {
@@ -55,7 +56,11 @@ export default function Login() {
           })
         );
       } catch (error) {
-        console.log(error);
+        if(error.code === "auth/email-already-in-use"){
+          setErrors({
+            "already" : "Email already Exits"
+          })
+        }
       }
     } else {
       try {
@@ -65,7 +70,11 @@ export default function Login() {
           credentials.password
         );
       } catch (error) {
-        console.log(error.message);
+        if(error.code === "auth/invalid-credential"){
+          setErrors({
+            "invalid" : "Email or Password Incorrect"
+          })
+        }
       }
     }
   }
@@ -101,22 +110,32 @@ export default function Login() {
           )}{" "}
         </div>
         {/* Conditionally render */}
-        <input
-          placeholder="Password"
-          type="password"
-          className="rounded-md bg-black opacity-80 p-4 w-full text-lg"
-          value={password}
-          onChange={handleInputChange("password")}
-        />
-        {errors.password && (
-          <span className="text-red-500 text-sm">{errors.password}</span>
-        )}
+        <div>
+          {" "}
+          <input
+            placeholder="Password"
+            type="password"
+            className="rounded-md bg-black opacity-80 p-4 w-full text-lg"
+            value={password}
+            onChange={handleInputChange("password")}
+          />
+          {errors.password && (
+            <span className="text-red-500 text-sm">{errors.password}</span>
+          )}
+        </div>
+
         <button
           className={`w-full p-4 rounded-md ${"bg-red-700"}`}
           onClick={handleSubmit}
         >
           {isSignInForm ? "Sign In" : "Register"}
         </button>
+        {errors.invalid && (
+            <span className="text-red-500 text-sm">{errors.invalid}</span>
+          )}
+           {errors.already && (
+            <span className="text-red-500 text-sm">{errors.already}</span>
+          )}
         <h2 className="w-full text-lg">
           {isSignInForm ? " New to Netflix? " : "Already a user? "}
           <span className="font-semibold cursor-pointer" onClick={toggleForm}>
