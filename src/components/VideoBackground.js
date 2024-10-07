@@ -30,7 +30,7 @@ export default function VideoBackground({ id }) {
     <div>
       <iframe
         className="w-full h-lvh "
-        src={"https://www.youtube.com/embed/" + trailerId}
+        src={"https://www.youtube.com/embed/" + trailerId + "?autoplay=1&mute=1"}
         title="YouTube video player"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
