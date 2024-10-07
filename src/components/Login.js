@@ -110,7 +110,7 @@ export default function Login() {
           )}{" "}
         </div>
         {/* Conditionally render */}
-        <div>
+        <div className="w-full">
           {" "}
           <input
             placeholder="Password"
