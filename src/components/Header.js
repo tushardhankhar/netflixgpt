@@ -42,7 +42,7 @@ export default function Header() {
       .catch((error) => {});
   }
   return (
-    <div className="bg-gradient-to-b from-black w-[100vw] p-4 flex justify-between items-center">
+    <div className="bg-gradient-to-b fixed from-black w-[100vw] p-4 px-12 flex justify-between items-center z-50">
       <img
         className="h-20 opacity-190 "
         src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
