@@ -4,6 +4,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { toogleGptSearch } from "../utils/gptSlice";
 
 export default function Header() {
   const [dropDown, setDropDown] = useState(false);
@@ -11,6 +12,11 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+
+  function toggleGPT(params) {
+    dispatch(toogleGptSearch());
+  }
 
   useEffect(() => {
     // this will be called everytime there is state change in firebase
@@ -49,7 +55,13 @@ export default function Header() {
         alt="logo"
       />
       {user && (
-        <div>
+        <div className="flex items-center gap-6">
+          <button
+            className="text-white bg-red-700 p-4 rounded-xl font-semibold text-lg"
+            onClick={toggleGPT}
+          >
+            {showGptSearch ? "Home" : "GPT Search"}
+          </button>
           <div>
             <img
               className="h-12 rounded-full opacity-190 cursor-pointer"
@@ -58,7 +70,7 @@ export default function Header() {
               onClick={() => setDropDown(true)}
             />
             {dropDown && (
-              <div className="bg-black text-white p-4 absolute right-4">
+              <div className="bg-black text-white px-10 p-4 absolute right-12 top-24 bg-red-700 ">
                 <div className="cursor-pointer" onClick={handleSignOut}>
                   Log Out
                 </div>
