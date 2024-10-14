@@ -9,7 +9,7 @@ export default function SearchComponent() {
     try {
       setIsLoading(true);
       const chatCompletion = await client.chat.completions.create({
-        messages: [{ role: "user", content: "Say this is a test" }],
+        messages: [{ role: "user", content: input }],
         model: "gpt-3.5-turbo",
       });
       console.log(chatCompletion);
