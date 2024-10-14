@@ -14,12 +14,11 @@ export default function Header() {
   const navigate = useNavigate();
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
-  function toggleGPT(params) {
+  function toggleGPT() {
     dispatch(toogleGptSearch());
   }
 
   useEffect(() => {
-    // this will be called everytime there is state change in firebase
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName } = user;
@@ -70,7 +69,7 @@ export default function Header() {
               onClick={() => setDropDown(true)}
             />
             {dropDown && (
-              <div className="bg-black text-white px-10 p-4 absolute right-12 top-24 bg-red-700 ">
+              <div className=" text-white px-10 p-4 absolute right-12 top-24 bg-red-700 ">
                 <div className="cursor-pointer" onClick={handleSignOut}>
                   Log Out
                 </div>

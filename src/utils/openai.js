@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 
 export const client = new OpenAI({
-  apiKey: process.env.OPENAPI_KEY ,
+  apiKey: process.env.REACT_APP_OPENAPI_KEY,
+  dangerouslyAllowBrowser: true,
 });
