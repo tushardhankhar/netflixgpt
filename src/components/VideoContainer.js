@@ -10,17 +10,17 @@ export default function VideoContainer() {
 
   return (
     <div>
-      <div className="absolute w-1/2 h-screen flex flex-col justify-center pl-10 bg-gradient-to-r gap-8 from-black text-white">
-        <h1 className="text-6xl font-bold ">{mainMovie?.title}</h1>
-        <h3 className="text-xl w-3/4">{mainMovie?.overview}</h3>
+      <div className="absolute w-3/4 md:w-1/2 h-3/4 flex flex-col justify-center pl-10 bg-gradient-to-r gap-8 from-black text-white">
+        <h1 className="text-xl md:text-6xl font-bold ">{mainMovie?.title}</h1>
+        <h3 className=" text-sm md:text-xl w-3/4">{mainMovie?.overview}</h3>
         <div>
           <button
-            className="py-4 text-xl px-10 rounded-lg text-black bg-white hover:bg-opacity-80"
+            className="md:py-4 md:text-xl py-2 px-5 md:px-10 rounded-lg text-black bg-white hover:bg-opacity-80"
           >
             ▶ Play
           </button>
           <button
-            className="py-4 text-xl px-10 rounded-lg bg-slate-400 ml-4 bg-opacity-70"
+            className="md:py-4 md:text-xl py-2 px-5 md:px-10 rounded-lg bg-slate-400 ml-4 bg-opacity-70"
           >
             ℹ More Info
           </button>

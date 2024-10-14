@@ -24,18 +24,22 @@ export default function VideoBackground({ id }) {
 
   useEffect(() => {
     getVideo();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <iframe
-        className="w-full h-lvh "
-        src={"https://www.youtube.com/embed/" + trailerId + "?autoplay=1&mute=1"}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
+    <div className="h-screen">
+      <div className="h-1/2 md:h-full w-full">
+        <iframe
+          className="w-full h-full md:h-1vh"
+          src={
+            "https://www.youtube.com/embed/" + trailerId + "?autoplay=1&mute=1"
+          }
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
+      </div>
     </div>
   );
 }

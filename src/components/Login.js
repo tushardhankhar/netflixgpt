@@ -82,15 +82,15 @@ export default function Login() {
   return (
     <div className='h-[100vh] bg-cover bg-no-repeat bg-center bg-[url("https://assets.nflxext.com/ffe/siteui/vlv3/bfc0fc46-24f6-4d70-85b3-7799315c01dd/web/IN-en-20240923-TRIFECTA-perspective_74e21c19-980e-45ef-bd6c-78c1a6ce9381_large.jpg")]'>
       <Header />
-      <form className="w-1/4 bg-opacity-70 flex flex-col items-center gap-8 bg-black p-16 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <h2 className="font-bold text-3xl w-full">
+      <form className="md:w-1/4 w-3/4 bg-opacity-70 flex flex-col items-center gap-8 bg-black p-4 md:p-16 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <h2 className="font-bold text-xl md:text-3xl w-full">
           {isSignInForm ? "Sign In" : "Register"}
         </h2>
         {!isSignInForm && (
           <input
             placeholder="Name"
             type="text"
-            className="bg-black opacity-80 p-4 rounded-md w-full"
+            className="bg-black opacity-80 p-2 md:p-4 rounded-md w-full"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -101,7 +101,7 @@ export default function Login() {
           <input
             placeholder="Email"
             type="email"
-            className="bg-black opacity-80 p-4 rounded-md w-full"
+            className="bg-black opacity-80 p-2 md:p-4 rounded-md w-full"
             value={email}
             onChange={handleInputChange("email")}
           />
@@ -115,7 +115,7 @@ export default function Login() {
           <input
             placeholder="Password"
             type="password"
-            className="rounded-md bg-black opacity-80 p-4 w-full text-lg"
+            className="rounded-md bg-black opacity-80 p-2 md:p-4 w-full text-lg"
             value={password}
             onChange={handleInputChange("password")}
           />
@@ -125,7 +125,7 @@ export default function Login() {
         </div>
 
         <button
-          className={`w-full p-4 rounded-md ${"bg-red-700"}`}
+          className={`w-full p-2 md:p-4 rounded-md ${"bg-red-700"}`}
           onClick={handleSubmit}
         >
           {isSignInForm ? "Sign In" : "Register"}
@@ -136,7 +136,7 @@ export default function Login() {
            {errors.already && (
             <span className="text-red-500 text-sm">{errors.already}</span>
           )}
-        <h2 className="w-full text-lg">
+        <h2 className="w-full text-sm md:text-lg">
           {isSignInForm ? " New to Netflix? " : "Already a user? "}
           <span className="font-semibold cursor-pointer" onClick={toggleForm}>
             {isSignInForm ? "Sign up now." : "Sign In now."}
