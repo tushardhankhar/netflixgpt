@@ -113,7 +113,7 @@ export default function Login() {
         <div className="w-full">
           {" "}
           <input
-            placeholder="Password"
+            placeholder="Passwords"
             type="password"
             className="rounded-md bg-black opacity-80 p-2 md:p-4 w-full text-lg"
             value={password}
